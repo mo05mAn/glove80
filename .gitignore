@@ -1,2 +1,5 @@
 *~
 *.uf2
+.venv/
+glove80.svg
+glove80.yaml

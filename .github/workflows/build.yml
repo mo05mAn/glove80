@@ -30,3 +30,24 @@ jobs:
         with:
           name: glove80.uf2
           path: glove80.uf2
+
+  visualize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install keymap-drawer
+        run: pip install keymap-drawer
+      - name: Render keymap visualization
+        run: |
+          keymap parse -z config/glove80.keymap -o glove80.yaml
+          keymap draw glove80.yaml -o glove80.svg
+      - name: Upload keymap visualization
+        uses: actions/upload-artifact@v4
+        with:
+          name: glove80-keymap-svg
+          path: |
+            glove80.svg
+            glove80.yaml
