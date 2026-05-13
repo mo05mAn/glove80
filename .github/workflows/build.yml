@@ -6,10 +6,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           repository: moergo-sc/zmk
           ref: main
@@ -17,7 +17,7 @@ jobs:
       - uses: cachix/install-nix-action@v25
         with:
           nix_path: nixpkgs=channel:nixos-22.05
-      - uses: cachix/cachix-action@v14
+      - uses: cachix/cachix-action@v17
         with:
           name: moergo-glove80-zmk-dev
           skipPush: true
@@ -25,7 +25,7 @@ jobs:
         run: nix-build config -o combined
       - name: Copy firmware out of nix store
         run: cp combined/glove80.uf2 glove80.uf2
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Install keymap-drawer
@@ -35,7 +35,7 @@ jobs:
           keymap parse -z config/glove80.keymap -o glove80.yaml
           keymap draw glove80.yaml -o glove80.svg
       - name: Upload build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: glove80-build
           path: |
