@@ -23,18 +23,8 @@ jobs:
           skipPush: true
       - name: Build Glove80 combined firmware
         run: nix-build config -o combined
-      - name: Copy result out of nix store
+      - name: Copy firmware out of nix store
         run: cp combined/glove80.uf2 glove80.uf2
-      - name: Upload result
-        uses: actions/upload-artifact@v4
-        with:
-          name: glove80.uf2
-          path: glove80.uf2
-
-  visualize:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -42,16 +32,13 @@ jobs:
         run: pip install keymap-drawer
       - name: Render keymap visualization
         run: |
-          mkdir -p output
-          keymap parse -z config/glove80.keymap -o output/glove80.yaml
-          keymap draw output/glove80.yaml -o output/glove80.svg
-      - name: Upload keymap SVG
+          keymap parse -z config/glove80.keymap -o glove80.yaml
+          keymap draw glove80.yaml -o glove80.svg
+      - name: Upload build
         uses: actions/upload-artifact@v4
         with:
-          name: glove80-keymap-svg
-          path: output/glove80.svg
-      - name: Upload keymap YAML
-        uses: actions/upload-artifact@v4
-        with:
-          name: glove80-keymap-yaml
-          path: output/glove80.yaml
+          name: glove80-build
+          path: |
+            glove80.uf2
+            glove80.svg
+            glove80.yaml

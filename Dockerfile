@@ -35,8 +35,9 @@ COPY --chmod=755 <<EOF /bin/entrypoint.sh
 
     echo 'Building Glove80 firmware' >&2
     cd /config
+    mkdir -p output
     nix-build ./config --arg firmware 'import /src/default.nix {}' -j2 -o /tmp/combined --show-trace
-    install -o "\$UID" -g "\$GID" /tmp/combined/glove80.uf2 ./glove80.uf2
+    install -o "\$UID" -g "\$GID" /tmp/combined/glove80.uf2 ./output/glove80.uf2
 EOF
 
 ENTRYPOINT ["/bin/entrypoint.sh"]
