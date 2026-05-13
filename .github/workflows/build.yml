@@ -42,12 +42,11 @@ jobs:
         run: pip install keymap-drawer
       - name: Render keymap visualization
         run: |
-          keymap parse -z config/glove80.keymap -o glove80.yaml
-          keymap draw glove80.yaml -o glove80.svg
+          mkdir -p output
+          keymap parse -z config/glove80.keymap -o output/glove80.yaml
+          keymap draw output/glove80.yaml -o output/glove80.svg
       - name: Upload keymap visualization
         uses: actions/upload-artifact@v4
         with:
           name: glove80-keymap-svg
-          path: |
-            glove80.svg
-            glove80.yaml
+          path: output/
