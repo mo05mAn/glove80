@@ -45,8 +45,13 @@ jobs:
           mkdir -p output
           keymap parse -z config/glove80.keymap -o output/glove80.yaml
           keymap draw output/glove80.yaml -o output/glove80.svg
-      - name: Upload keymap visualization
+      - name: Upload keymap SVG
         uses: actions/upload-artifact@v4
         with:
           name: glove80-keymap-svg
-          path: output/
+          path: output/glove80.svg
+      - name: Upload keymap YAML
+        uses: actions/upload-artifact@v4
+        with:
+          name: glove80-keymap-yaml
+          path: output/glove80.yaml
